@@ -1,0 +1,67 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "shop": "Shop",
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "bookNow": "Request Consultancy"
+  },
+  "home": {
+    "ctaPrimary": "Request Consultancy",
+    "ctaSecondary": "View Products",
+    "servicesTitle": "Our services",
+    "whyTitle": "Why Kilimo Hai",
+    "whyBody": "Expert advice from an experienced Agronomist, proven natural products, and direct communication for every farmer — large farms and small.",
+    "finalCta": "Ready to start?",
+    "finalCtaBody": "Send your consultancy request today, or browse our organic farming products."
+  },
+  "services": {
+    "title": "Our Services",
+    "intro": "Choose the service that fits your needs. Each service has packages sized to your farm.",
+    "requestThis": "Request this service",
+    "packages": "Packages"
+  },
+  "booking": {
+    "title": "Request Consultancy",
+    "step1": "Farm Details",
+    "step2": "Choose Service",
+    "step3": "Additional Details",
+    "name": "Your name",
+    "phone": "Phone number",
+    "region": "Region",
+    "district": "District",
+    "farmSize": "Farm size (acres)",
+    "crop": "Crop",
+    "service": "Service",
+    "package": "Package",
+    "notes": "Problem or notes (optional)",
+    "submit": "Submit Request",
+    "submitting": "Submitting...",
+    "success": "Thank you! Your request has been received. We'll be in touch shortly.",
+    "error": "Sorry, something went wrong. Please try again."
+  },
+  "shop": {
+    "title": "Shop",
+    "intro": "Organic fertilizer and natural pest control products.",
+    "addToCart": "Add to cart",
+    "fertilizer": "Organic Fertilizer",
+    "pesticide": "Pest Control",
+    "outOfStock": "Currently unavailable"
+  },
+  "about": {
+    "title": "About Us"
+  },
+  "blog": {
+    "title": "Blog & Tips",
+    "readMore": "Read more"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "whatsapp": "Message us on WhatsApp"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}
