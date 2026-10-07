@@ -1,0 +1,67 @@
+{
+  "nav": {
+    "home": "Nyumbani",
+    "services": "Huduma",
+    "shop": "Duka",
+    "about": "Kuhusu",
+    "blog": "Blogu",
+    "contact": "Wasiliana",
+    "bookNow": "Omba Ushauri"
+  },
+  "home": {
+    "ctaPrimary": "Omba Ushauri",
+    "ctaSecondary": "Tazama Bidhaa",
+    "servicesTitle": "Huduma zetu",
+    "whyTitle": "Kwa nini Kilimo Hai",
+    "whyBody": "Ushauri wa kitaalamu kutoka kwa Agronomist mwenye uzoefu, bidhaa za asili zilizothibitishwa, na mawasiliano ya moja kwa moja kwa wakulima wote — mashamba makubwa na madogo.",
+    "finalCta": "Tayari kuanza?",
+    "finalCtaBody": "Tuma ombi lako la ushauri leo, au tazama bidhaa zetu za kilimo hai."
+  },
+  "services": {
+    "title": "Huduma Zetu",
+    "intro": "Chagua huduma inayokufaa. Kila huduma ina vifurushi tofauti kulingana na mahitaji ya shamba lako.",
+    "requestThis": "Omba huduma hii",
+    "packages": "Vifurushi"
+  },
+  "booking": {
+    "title": "Omba Ushauri",
+    "step1": "Taarifa za Shamba",
+    "step2": "Chagua Huduma",
+    "step3": "Maelezo ya Ziada",
+    "name": "Jina lako",
+    "phone": "Namba ya simu",
+    "region": "Mkoa",
+    "district": "Wilaya",
+    "farmSize": "Ukubwa wa shamba (ekari)",
+    "crop": "Zao",
+    "service": "Huduma",
+    "package": "Kifurushi",
+    "notes": "Tatizo au maelezo (hiari)",
+    "submit": "Tuma Ombi",
+    "submitting": "Inatuma...",
+    "success": "Asante! Ombi lako limepokelewa. Tutawasiliana nawe hivi karibuni.",
+    "error": "Samahani, kumetokea hitilafu. Jaribu tena."
+  },
+  "shop": {
+    "title": "Duka",
+    "intro": "Bidhaa za organic fertilizer na madawa ya asili ya wadudu.",
+    "addToCart": "Weka kwenye kikapu",
+    "fertilizer": "Mbolea za Asili",
+    "pesticide": "Madawa ya Wadudu",
+    "outOfStock": "Haipatikani kwa sasa"
+  },
+  "about": {
+    "title": "Kuhusu Sisi"
+  },
+  "blog": {
+    "title": "Blogu na Vidokezo",
+    "readMore": "Soma zaidi"
+  },
+  "contact": {
+    "title": "Wasiliana Nasi",
+    "whatsapp": "Tuandikie WhatsApp"
+  },
+  "footer": {
+    "rights": "Haki zote zimehifadhiwa."
+  }
+}
