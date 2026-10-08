@@ -35,6 +35,12 @@ export default function AdminBookingsPage() {
     await supabase.from("bookings").update({ status }).eq("id", id);
   }
 
+  async function removeBooking(id: string) {
+    if (!window.confirm("Futa booking hii? Hatua hii haiwezi kurudishwa.")) return;
+    const { error } = await supabase.from("bookings").delete().eq("id", id);
+    if (!error) setBookings((prev) => prev.filter((b) => b.id !== id));
+  }
+
   if (loading) return <p className="text-sm text-ink/50">Inapakia...</p>;
 
   return (
@@ -83,6 +89,12 @@ export default function AdminBookingsPage() {
                 {b.notes}
               </p>
             )}
+            <button
+              onClick={() => removeBooking(b.id)}
+              className="mt-4 rounded-md border border-red-200 px-3 py-1.5 text-xs text-red-600"
+            >
+              Futa booking
+            </button>
           </div>
         ))}
       </div>
