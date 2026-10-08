@@ -6,7 +6,8 @@
     "about": "About",
     "blog": "Blog",
     "contact": "Contact",
-    "bookNow": "Request Consultancy"
+    "bookNow": "Request Consultancy",
+    "events": "Events"
   },
   "home": {
     "ctaPrimary": "Request Consultancy",
@@ -48,20 +49,37 @@
     "addToCart": "Add to cart",
     "fertilizer": "Organic Fertilizer",
     "pesticide": "Pest Control",
-    "outOfStock": "Currently unavailable"
+    "outOfStock": "Currently unavailable",
+    "empty": "Products coming soon."
   },
   "about": {
     "title": "About Us"
   },
   "blog": {
     "title": "Blog & Tips",
-    "readMore": "Read more"
+    "readMore": "Read more",
+    "empty": "Posts coming soon.",
+    "notFound": "Post not found."
   },
   "contact": {
     "title": "Contact Us",
-    "whatsapp": "Message us on WhatsApp"
+    "whatsapp": "Message us on WhatsApp",
+    "phone": "Phone",
+    "email": "Email",
+    "location": "Location"
   },
   "footer": {
     "rights": "All rights reserved."
+  },
+  "common": {
+    "brand": "Kilimo Hai",
+    "other": "Other",
+    "loading": "Loading..."
+  },
+  "events": {
+    "title": "Events & Photos",
+    "intro": "Photos and updates from our events and fieldwork.",
+    "empty": "Events coming soon.",
+    "photos": "photos"
   }
 }
