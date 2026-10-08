@@ -67,8 +67,6 @@ Ukiwa tayari umeunganisha Vercel na GitHub repo:
   na Selcom/ClickPesa — hii inahitaji akaunti ya mtoa huduma wa malipo kwanza.
 - **Kikapu cha duka (cart/checkout)**: kitufe cha "Weka kwenye kikapu" bado ni cha mwonekano
   tu — hakijaunganishwa na jedwali la `orders` bado.
-- **Upload wa picha za bidhaa/blogu**: kwa sasa unaweka URL ya picha moja kwa moja; Supabase
-  Storage inaweza kuongezwa baadaye kwa upload wa moja kwa moja kutoka admin dashboard.
 - **SMS/Email arifa** za booking mpya kwa admin.
 
 Kila moja ya hizi inafuata muundo uleule ulio tayari kwenye mradi — niambie ni ipi ya kuanza
