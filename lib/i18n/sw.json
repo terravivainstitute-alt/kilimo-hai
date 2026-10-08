@@ -6,7 +6,8 @@
     "about": "Kuhusu",
     "blog": "Blogu",
     "contact": "Wasiliana",
-    "bookNow": "Omba Ushauri"
+    "bookNow": "Omba Ushauri",
+    "events": "Matukio"
   },
   "home": {
     "ctaPrimary": "Omba Ushauri",
@@ -48,20 +49,37 @@
     "addToCart": "Weka kwenye kikapu",
     "fertilizer": "Mbolea za Asili",
     "pesticide": "Madawa ya Wadudu",
-    "outOfStock": "Haipatikani kwa sasa"
+    "outOfStock": "Haipatikani kwa sasa",
+    "empty": "Bidhaa zinakuja hivi karibuni."
   },
   "about": {
     "title": "Kuhusu Sisi"
   },
   "blog": {
     "title": "Blogu na Vidokezo",
-    "readMore": "Soma zaidi"
+    "readMore": "Soma zaidi",
+    "empty": "Makala zinakuja hivi karibuni.",
+    "notFound": "Makala haijapatikana."
   },
   "contact": {
     "title": "Wasiliana Nasi",
-    "whatsapp": "Tuandikie WhatsApp"
+    "whatsapp": "Tuandikie WhatsApp",
+    "phone": "Simu",
+    "email": "Email",
+    "location": "Mahali"
   },
   "footer": {
     "rights": "Haki zote zimehifadhiwa."
+  },
+  "common": {
+    "brand": "Kilimo Hai",
+    "other": "Nyingine",
+    "loading": "Inapakia..."
+  },
+  "events": {
+    "title": "Matukio na Picha",
+    "intro": "Picha na taarifa za matukio na kazi zetu shambani.",
+    "empty": "Matukio yanakuja hivi karibuni.",
+    "photos": "picha"
   }
 }
