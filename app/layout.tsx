@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/LanguageContext";
+import { CartProvider } from "@/lib/CartContext";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 
@@ -17,9 +18,11 @@ export default function RootLayout({
     <html lang="sw">
       <body>
         <LanguageProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
+          <CartProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </CartProvider>
         </LanguageProvider>
       </body>
     </html>
