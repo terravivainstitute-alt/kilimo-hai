@@ -123,3 +123,23 @@ export interface EventItem {
   is_published: boolean;
   created_at: string;
 }
+
+export interface CartItem {
+  product_id: string;
+  name: Bilingual;
+  price: number;
+  unit: string;
+  qty: number;
+  image_url: string | null;
+}
+
+export interface PaymentMethod {
+  name: string;
+  number: string;
+  account_name: string;
+}
+
+export interface PaymentSettings {
+  methods: PaymentMethod[];
+  note: Bilingual;
+}
