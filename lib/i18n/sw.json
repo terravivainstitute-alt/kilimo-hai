@@ -7,7 +7,8 @@
     "blog": "Blogu",
     "contact": "Wasiliana",
     "bookNow": "Omba Ushauri",
-    "events": "Matukio"
+    "events": "Matukio",
+    "cart": "Kikapu"
   },
   "home": {
     "ctaPrimary": "Omba Ushauri",
@@ -81,5 +82,29 @@
     "intro": "Picha na taarifa za matukio na kazi zetu shambani.",
     "empty": "Matukio yanakuja hivi karibuni.",
     "photos": "picha"
+  },
+  "cart": {
+    "title": "Kikapu chako",
+    "empty": "Kikapu chako ni tupu.",
+    "continueShopping": "Endelea kuchagua bidhaa",
+    "total": "Jumla",
+    "remove": "Ondoa",
+    "added": "Imewekwa",
+    "checkoutTitle": "Taarifa zako",
+    "name": "Jina lako",
+    "phone": "Namba ya simu",
+    "region": "Mkoa / eneo la kupelekewa",
+    "placeOrder": "Weka oda",
+    "placing": "Inatuma oda...",
+    "successTitle": "Oda yako imepokelewa",
+    "reference": "Namba ya oda",
+    "amountToPay": "Kiasi cha kulipa",
+    "payHow": "Jinsi ya kulipa",
+    "payNote": "Tumia namba ya oda kama kumbukumbu wakati wa kulipa.",
+    "noMethods": "Tutawasiliana nawe kwa simu kukupa maelekezo ya malipo.",
+    "accountName": "Jina la akaunti",
+    "errorGeneric": "Samahani, oda haikutumwa. Jaribu tena.",
+    "errorStock": "Bidhaa moja haitoshi kwa idadi uliyoomba. Punguza idadi kisha ujaribu tena.",
+    "errorUnavailable": "Bidhaa moja haipatikani tena. Iondoe kwenye kikapu kisha ujaribu tena."
   }
 }
