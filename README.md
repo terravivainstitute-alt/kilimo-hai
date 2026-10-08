@@ -1,73 +1,102 @@
 # Kilimo Hai — Tovuti ya Huduma za Kilimo Hai
 
-Tovuti ya lugha mbili (Kiswahili/English) inayotoa ushauri wa Agronomist, mauzo ya
-organic fertilizer na madawa ya asili ya wadudu, na booking yenye malipo.
+Tovuti ya lugha mbili (Kiswahili / English) ya huduma za kilimo hai: ushauri wa Agronomist,
+mbolea za asili (compost), madawa ya asili ya wadudu, matukio na picha/video, na booking ya wakulima.
+Maudhui yote yanabadilishwa na admin bila kuandika msimbo.
 
-**Tech stack:** Next.js 15 + TypeScript + Tailwind CSS v4 + Supabase (database, auth)
+**Tech stack:** Next.js 15 + TypeScript + Tailwind CSS v4 + Supabase (database, auth, storage) + Vercel
 
-Supabase project tayari imeshaundwa na kujazwa data za awali:
-- Project: `kilimo-hai` (region: `eu-west-1`)
-- Majedwali: `services`, `bookings`, `products`, `orders`, `blog_posts`, `site_content`
-- `.env.local.example` tayari ina URL na anon key sahihi za project hii.
+## Vipengele
 
-## 1. Anzisha kwenye kompyuta yako
+**Kwa wageni**
+- Kurasa: Nyumbani, Huduma, Duka, Matukio, Kuhusu, Blogu, Wasiliana, Booking
+- Kitufe cha kubadilisha lugha SW / EN
+- Picha na video zinafunguka palepale kwenye ukurasa (dirisha kubwa lenye mishale)
+- Video za YouTube / Vimeo au zilizopakiwa moja kwa moja
+- Fomu ya booking ya ushauri
+
+**Kwa admin** (`/admin/login`)
+- Muhtasari, Bookings (badilisha hali, futa)
+- Huduma na vifurushi vyake (ongeza, hariri, ficha, futa)
+- Bidhaa (picha na video)
+- Matukio na Picha (picha nyingi na video, maelezo kwa lugha mbili)
+- Blogu (picha ya juu, video, chapisha/rasimu)
+- Maudhui na Mawasiliano (hero, kuhusu, simu, WhatsApp, email, mahali)
+- Maneno ya Tovuti: kila neno la menyu, vitufe na vichwa linaweza kubadilishwa au kufutwa
+- Kuingia kwa email na password (jicho la kuonyesha password) na "Umesahau password?"
+
+## Muundo wa mradi
+
+```
+app/                 kurasa za tovuti na admin
+  admin/             login, forgot-password, reset-password, dashboard/*
+  components/        Navbar, Footer, MediaLightbox, admin/*
+lib/                 supabase, LanguageContext, i18n (sw/en), media, storage, useContact, slug
+types/content.ts     aina za data (Service, Product, EventItem, BlogPost, ...)
+public/              logo
+```
+
+## 1. Kuanzisha kwenye kompyuta
 
 ```bash
-# Toa faili zote kwenye folder
-cd kilimo-hai-website
-
-# Sakinisha dependencies
 npm install
-
-# Nakili env file
 cp .env.local.example .env.local
-
 npm run dev
 ```
 
 Fungua http://localhost:3000
 
-## 2. Tengeneza akaunti ya admin (Supabase Auth)
+## 2. Environment variables
 
-1. Nenda https://supabase.com/dashboard/project/idxkstcogilutwvaocvx
-2. **Authentication → Users → Add user** — jaza email na password utakayotumia kuingia `/admin/login`
-3. Ingia kwenye http://localhost:3000/admin/login na taarifa hizo
+| Jina | Maelezo |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | URL ya Supabase project |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Funguo ya umma (publishable) ya Supabase |
 
-## 3. Pandisha kwenye GitHub
+Funguo hizi ni za umma kwa muundo. Usalama wa data unalindwa na sheria za RLS kwenye Supabase.
+Usiweke kamwe `service_role` key kwenye msimbo wa tovuti.
 
-```bash
-cd kilimo-hai-website
-git init
-git add .
-git commit -m "Kilimo Hai — msingi wa tovuti (Next.js + Supabase)"
+## 3. Supabase
 
-# Unda repo mpya tupu kwenye github.com, kisha:
-git branch -M main
-git remote add origin https://github.com/<jina-lako>/kilimo-hai-website.git
-git push -u origin main
+Project: `kilimo-hai` (region `eu-west-1`)
+
+- **Majedwali:** `services`, `bookings`, `products`, `orders`, `blog_posts`, `events`, `site_content`, `admins`
+- **Storage:** bucket ya umma `media` (picha hadi 5MB, video hadi 50MB: MP4, WEBM, MOV)
+- **Ruhusa:** wageni wanasoma maudhui yaliyochapishwa na kutuma booking. Kuhariri ni kwa
+  emails zilizo kwenye jedwali la `admins` pekee (kupitia function `is_admin()`).
+
+### Kuongeza admin mwingine
+
+1. Supabase → Authentication → Users → Add user (weka **Auto Confirm User**)
+2. Supabase → SQL Editor:
+
+```sql
+insert into public.admins (email) values ('barua@mfano.com');
 ```
 
-Ukishamaliza, niambie jina la repo (mfano `jina-lako/kilimo-hai-website`) — nitaweza
-kukuunganishia na Vercel moja kwa moja kupitia project uliyonipa ufikiaji wake, na
-kukuwekea environment variables za Supabase huko pia.
+### Mipangilio muhimu (Authentication)
 
-## 4. Deploy kwenye Vercel (baada ya GitHub)
+- **URL Configuration:** Site URL = anwani ya tovuti yako. Redirect URLs ongeza `https://ANWANI-YAKO/**`
+  (inahitajika ili "forgot password" ifanye kazi).
+- **Sign In / Providers:** zima "Allow new users to sign up" (usajili wa umma).
 
-Ukiwa tayari umeunganisha Vercel na GitHub repo:
+## 4. Deploy (GitHub + Vercel)
 
-1. Vercel → Add New Project → chagua repo hii
-2. Weka Environment Variables (zilezile za `.env.local`):
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-3. Deploy
+1. Pandisha msimbo kwenye GitHub (repo `kilimo-hai`)
+2. Vercel → Add New Project → chagua repo
+3. Environment Variables: weka mbili zilizo hapo juu
+4. Deploy. Kila `commit` mpya kwenye `main` inajijenga yenyewe.
 
-## Bado haijakamilika (hatua zinazofuata)
+## 5. Vikomo vya kujua
 
-- **Malipo (M-Pesa/Tigo Pesa/Airtel Money)**: fomu ya booking na duka bado hazijaunganishwa
-  na Selcom/ClickPesa — hii inahitaji akaunti ya mtoa huduma wa malipo kwanza.
-- **Kikapu cha duka (cart/checkout)**: kitufe cha "Weka kwenye kikapu" bado ni cha mwonekano
-  tu — hakijaunganishwa na jedwali la `orders` bado.
-- **SMS/Email arifa** za booking mpya kwa admin.
+- Video kubwa kuliko 50MB: ziweke YouTube kisha ubandike kiungo kwenye admin.
+- Tumia video za **MP4** kwa uhakika wa kucheza kwenye vifaa vyote.
+- Mpango wa bure wa Supabase una ukomo wa bandwidth. YouTube haihesabiwi.
+- Barua pepe za Supabase (reset password) ni chache kwa saa kwenye mpango wa bure.
 
-Kila moja ya hizi inafuata muundo uleule ulio tayari kwenye mradi — niambie ni ipi ya kuanza
-nayo.
+## Bado haijakamilika
+
+- **Malipo ya mobile money** (M-Pesa, Tigo Pesa, Airtel Money kupitia Selcom au ClickPesa)
+- **Kikapu cha duka na checkout:** kitufe cha "Weka kwenye kikapu" ni cha mwonekano tu bado
+- **Arifa za SMS/Email** kwa admin booking mpya ikiingia
+- Video kwenye huduma na ukurasa wa Kuhusu
