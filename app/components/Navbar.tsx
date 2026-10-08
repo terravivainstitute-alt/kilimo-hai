@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useCart } from "@/lib/CartContext";
 
 const links = [
   { href: "/", key: "home" as const },
@@ -16,6 +17,7 @@ const links = [
 
 export default function Navbar() {
   const { lang, setLang, t } = useLanguage();
+  const { count } = useCart();
   const [open, setOpen] = useState(false);
 
   return (
@@ -41,6 +43,7 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-4 md:flex">
+          <CartLink count={count} label={t.nav.cart} />
           <LangToggle lang={lang} setLang={setLang} />
           <Link
             href="/booking"
@@ -81,11 +84,40 @@ export default function Navbar() {
             >
               {t.nav.bookNow}
             </Link>
+            <Link
+              href="/kikapu"
+              onClick={() => setOpen(false)}
+              className="text-sm text-ink/80"
+            >
+              {t.nav.cart}
+              {count > 0 ? ` (${count})` : ""}
+            </Link>
             <LangToggle lang={lang} setLang={setLang} />
           </nav>
         </div>
       )}
     </header>
+  );
+}
+
+function CartLink({ count, label }: { count: number; label: string }) {
+  return (
+    <Link
+      href="/kikapu"
+      aria-label={label}
+      className="relative flex items-center text-forest-dark transition hover:text-forest"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="9" cy="20" r="1.4" />
+        <circle cx="18" cy="20" r="1.4" />
+        <path d="M2 3h3l2.6 11.2a1 1 0 0 0 1 .8h8.8a1 1 0 0 0 1-.8L20 7H6" />
+      </svg>
+      {count > 0 && (
+        <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-harvest px-1 text-[10px] font-semibold text-white">
+          {count}
+        </span>
+      )}
+    </Link>
   );
 }
 
