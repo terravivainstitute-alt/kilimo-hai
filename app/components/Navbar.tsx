@@ -24,7 +24,8 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 border-b border-forest-dark/10 bg-cream/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-2">
-          <LeafMark />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-mark.svg" alt="" width={34} height={34} className="h-8 w-auto" />
           <span className="font-[family-name:var(--font-display)] text-xl font-semibold text-forest-dark">
             {t.common.brand}
           </span>
@@ -147,17 +148,5 @@ function LangToggle({
         EN
       </button>
     </div>
-  );
-}
-
-function LeafMark() {
-  return (
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-      <circle cx="14" cy="14" r="13" stroke="#2f6b3f" strokeWidth="1.5" opacity="0.3" />
-      <path
-        d="M14 20c-4-2-6-6-4-10 3 1 6 3 7 6 1-3 4-5 7-6 2 4 0 8-4 10-2 1-4 1-6 0Z"
-        fill="#2f6b3f"
-      />
-    </svg>
   );
 }
