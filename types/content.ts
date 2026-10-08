@@ -32,6 +32,7 @@ export interface Product {
   unit: string;
   stock: number;
   image_url: string | null;
+  videos: string[];
   is_active: boolean;
   created_at: string;
 }
@@ -83,6 +84,7 @@ export interface BlogPost {
   title: Bilingual;
   body: Bilingual;
   cover_image_url: string | null;
+  videos: string[];
   published: boolean;
   published_at: string | null;
   created_at: string;
@@ -102,4 +104,22 @@ export interface SiteContentRow<T> {
   key: string;
   content: { sw: T; en: T };
   updated_at: string;
+}
+
+export interface ContactContent {
+  phone: string;
+  whatsapp: string;
+  email: string;
+  location: Bilingual;
+}
+
+export interface EventItem {
+  id: string;
+  title: Bilingual;
+  description: Bilingual | null;
+  event_date: string | null;
+  photos: string[];
+  videos: string[];
+  is_published: boolean;
+  created_at: string;
 }
