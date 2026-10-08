@@ -15,6 +15,7 @@ const navItems = [
   { href: "/admin/dashboard/events", label: "Matukio na Picha" },
   { href: "/admin/dashboard/blog", label: "Blogu" },
   { href: "/admin/dashboard/content", label: "Maudhui na Mawasiliano" },
+  { href: "/admin/dashboard/wasifu", label: "Wasifu na Vyeti" },
   { href: "/admin/dashboard/malipo", label: "Mipangilio ya Malipo" },
   { href: "/admin/dashboard/words", label: "Maneno ya Tovuti" },
 ];
