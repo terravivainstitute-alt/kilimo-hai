@@ -54,7 +54,9 @@
     "empty": "Bidhaa zinakuja hivi karibuni."
   },
   "about": {
-    "title": "Kuhusu Sisi"
+    "title": "Kuhusu Sisi",
+    "credentials": "Elimu na Vyeti",
+    "viewCertificate": "Tazama cheti"
   },
   "blog": {
     "title": "Blogu na Vidokezo",
