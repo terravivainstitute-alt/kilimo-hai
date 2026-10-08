@@ -54,7 +54,9 @@
     "empty": "Products coming soon."
   },
   "about": {
-    "title": "About Us"
+    "title": "About Us",
+    "credentials": "Education & Credentials",
+    "viewCertificate": "View certificate"
   },
   "blog": {
     "title": "Blog & Tips",
