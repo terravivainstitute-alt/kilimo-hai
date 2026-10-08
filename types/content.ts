@@ -143,3 +143,23 @@ export interface PaymentSettings {
   methods: PaymentMethod[];
   note: Bilingual;
 }
+
+export interface Credential {
+  title: Bilingual;
+  org: Bilingual;
+  year: string;
+  image_url: string;
+}
+
+export interface AboutStat {
+  value: string;
+  label: Bilingual;
+}
+
+export interface AboutProfile {
+  photo_url: string;
+  name: string;
+  role: Bilingual;
+  credentials: Credential[];
+  stats: AboutStat[];
+}
