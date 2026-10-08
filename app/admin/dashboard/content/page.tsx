@@ -2,9 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import type { AboutContent, HomeHeroContent } from "@/types/content";
+import { DEFAULT_CONTACT } from "@/lib/useContact";
+import type { AboutContent, ContactContent, HomeHeroContent } from "@/types/content";
+import { BilingualField, Notice, TextField } from "@/app/components/admin/ui";
 
-const DEFAULT_HERO: Record<"sw" | "en", HomeHeroContent> = {
+type Pair<T> = Record<"sw" | "en", T>;
+
+const DEFAULT_HERO: Pair<HomeHeroContent> = {
   sw: {
     headline: "Kilimo Hai — Ushauri na bidhaa za kilimo hai kwa mkulima yeyote",
     subheadline:
@@ -17,7 +21,7 @@ const DEFAULT_HERO: Record<"sw" | "en", HomeHeroContent> = {
   },
 };
 
-const DEFAULT_ABOUT: Record<"sw" | "en", AboutContent> = {
+const DEFAULT_ABOUT: Pair<AboutContent> = {
   sw: {
     intro:
       "Mimi ni Agronomist mwenye uzoefu wa kusaidia wakulima kuboresha mazao kwa njia za kilimo hai.",
@@ -35,20 +39,22 @@ const DEFAULT_ABOUT: Record<"sw" | "en", AboutContent> = {
 export default function AdminContentPage() {
   const [hero, setHero] = useState(DEFAULT_HERO);
   const [about, setAbout] = useState(DEFAULT_ABOUT);
+  const [contact, setContact] = useState<ContactContent>(DEFAULT_CONTACT);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [message, setMessage] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
 
   useEffect(() => {
     async function load() {
       const { data } = await supabase
         .from("site_content")
         .select("key, content")
-        .in("key", ["home_hero", "about"]);
+        .in("key", ["home_hero", "about", "contact"]);
 
       data?.forEach((row) => {
-        if (row.key === "home_hero") setHero(row.content as Record<"sw" | "en", HomeHeroContent>);
-        if (row.key === "about") setAbout(row.content as Record<"sw" | "en", AboutContent>);
+        if (row.key === "home_hero") setHero(row.content as Pair<HomeHeroContent>);
+        if (row.key === "about") setAbout(row.content as Pair<AboutContent>);
+        if (row.key === "contact") setContact({ ...DEFAULT_CONTACT, ...(row.content as ContactContent) });
       });
       setLoading(false);
     }
@@ -57,151 +63,113 @@ export default function AdminContentPage() {
 
   async function handleSave() {
     setSaving(true);
-    setSaved(false);
-    await Promise.all([
-      supabase
-        .from("site_content")
-        .upsert({ key: "home_hero", content: hero, updated_at: new Date().toISOString() }),
-      supabase
-        .from("site_content")
-        .upsert({ key: "about", content: about, updated_at: new Date().toISOString() }),
+    setMessage(null);
+    const now = new Date().toISOString();
+    const results = await Promise.all([
+      supabase.from("site_content").upsert({ key: "home_hero", content: hero, updated_at: now }),
+      supabase.from("site_content").upsert({ key: "about", content: about, updated_at: now }),
+      supabase.from("site_content").upsert({ key: "contact", content: contact, updated_at: now }),
     ]);
+    const failed = results.find((r) => r.error);
     setSaving(false);
-    setSaved(true);
+    setMessage(
+      failed?.error
+        ? { kind: "error", text: `Imeshindikana kuhifadhi: ${failed.error.message}` }
+        : { kind: "ok", text: "Mabadiliko yamehifadhiwa." }
+    );
   }
 
   if (loading) return <p className="text-sm text-ink/50">Inapakia...</p>;
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-3xl">
       <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-forest-dark">
-        Maudhui ya Tovuti
+        Maudhui na Mawasiliano
       </h1>
 
       <h2 className="mt-8 text-sm font-semibold uppercase tracking-wide text-forest">
-        Home — Hero
+        Ukurasa wa kwanza (Hero)
       </h2>
-      <div className="mt-3 grid gap-4 sm:grid-cols-2">
-        <LangBlock
-          label="Kiswahili"
-          headline={hero.sw.headline}
-          subheadline={hero.sw.subheadline}
-          onHeadline={(v) => setHero({ ...hero, sw: { ...hero.sw, headline: v } })}
-          onSubheadline={(v) => setHero({ ...hero, sw: { ...hero.sw, subheadline: v } })}
+      <div className="mt-3 space-y-4 rounded-2xl border border-forest-dark/10 bg-white p-5">
+        <BilingualField
+          label="Kichwa kikuu (headline)"
+          sw={hero.sw.headline}
+          en={hero.en.headline}
+          onSw={(v) => setHero({ ...hero, sw: { ...hero.sw, headline: v } })}
+          onEn={(v) => setHero({ ...hero, en: { ...hero.en, headline: v } })}
+          multiline
+          rows={2}
         />
-        <LangBlock
-          label="English"
-          headline={hero.en.headline}
-          subheadline={hero.en.subheadline}
-          onHeadline={(v) => setHero({ ...hero, en: { ...hero.en, headline: v } })}
-          onSubheadline={(v) => setHero({ ...hero, en: { ...hero.en, subheadline: v } })}
+        <BilingualField
+          label="Maelezo chini ya kichwa"
+          sw={hero.sw.subheadline}
+          en={hero.en.subheadline}
+          onSw={(v) => setHero({ ...hero, sw: { ...hero.sw, subheadline: v } })}
+          onEn={(v) => setHero({ ...hero, en: { ...hero.en, subheadline: v } })}
+          multiline
         />
       </div>
 
       <h2 className="mt-10 text-sm font-semibold uppercase tracking-wide text-forest">
-        About
+        Kuhusu sisi
       </h2>
-      <div className="mt-3 grid gap-4 sm:grid-cols-2">
-        <AboutBlock
-          label="Kiswahili"
-          intro={about.sw.intro}
-          philosophy={about.sw.philosophy}
-          onIntro={(v) => setAbout({ ...about, sw: { ...about.sw, intro: v } })}
-          onPhilosophy={(v) => setAbout({ ...about, sw: { ...about.sw, philosophy: v } })}
+      <div className="mt-3 space-y-4 rounded-2xl border border-forest-dark/10 bg-white p-5">
+        <BilingualField
+          label="Utangulizi"
+          sw={about.sw.intro}
+          en={about.en.intro}
+          onSw={(v) => setAbout({ ...about, sw: { ...about.sw, intro: v } })}
+          onEn={(v) => setAbout({ ...about, en: { ...about.en, intro: v } })}
+          multiline
+          rows={4}
         />
-        <AboutBlock
-          label="English"
-          intro={about.en.intro}
-          philosophy={about.en.philosophy}
-          onIntro={(v) => setAbout({ ...about, en: { ...about.en, intro: v } })}
-          onPhilosophy={(v) => setAbout({ ...about, en: { ...about.en, philosophy: v } })}
+        <BilingualField
+          label="Falsafa / msimamo"
+          sw={about.sw.philosophy}
+          en={about.en.philosophy}
+          onSw={(v) => setAbout({ ...about, sw: { ...about.sw, philosophy: v } })}
+          onEn={(v) => setAbout({ ...about, en: { ...about.en, philosophy: v } })}
+          multiline
+          rows={4}
         />
       </div>
 
-      <button
-        onClick={handleSave}
-        disabled={saving}
-        className="mt-8 rounded-full bg-forest px-6 py-2.5 text-sm font-medium text-cream transition hover:bg-forest-dark disabled:opacity-60"
-      >
-        {saving ? "Inahifadhi..." : "Hifadhi mabadiliko"}
-      </button>
-      {saved && <p className="mt-3 text-sm text-forest-dark">Imehifadhiwa.</p>}
-    </div>
-  );
-}
+      <h2 className="mt-10 text-sm font-semibold uppercase tracking-wide text-forest">
+        Mawasiliano (footer na ukurasa wa Wasiliana)
+      </h2>
+      <div className="mt-3 space-y-4 rounded-2xl border border-forest-dark/10 bg-white p-5">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <TextField label="Namba ya simu" value={contact.phone} onChange={(v) => setContact({ ...contact, phone: v })} />
+          <TextField
+            label="Namba ya WhatsApp (mfano 255712345678, bila +)"
+            value={contact.whatsapp}
+            onChange={(v) => setContact({ ...contact, whatsapp: v })}
+          />
+        </div>
+        <TextField label="Email" type="email" value={contact.email} onChange={(v) => setContact({ ...contact, email: v })} />
+        <BilingualField
+          label="Mahali"
+          sw={contact.location.sw}
+          en={contact.location.en}
+          onSw={(v) => setContact({ ...contact, location: { ...contact.location, sw: v } })}
+          onEn={(v) => setContact({ ...contact, location: { ...contact.location, en: v } })}
+        />
+      </div>
 
-function LangBlock({
-  label,
-  headline,
-  subheadline,
-  onHeadline,
-  onSubheadline,
-}: {
-  label: string;
-  headline: string;
-  subheadline: string;
-  onHeadline: (v: string) => void;
-  onSubheadline: (v: string) => void;
-}) {
-  return (
-    <div className="rounded-xl border border-forest-dark/10 bg-white p-4">
-      <p className="text-xs font-semibold text-ink/50">{label}</p>
-      <label className="mt-2 block text-xs text-ink/60">
-        Headline
-        <textarea
-          value={headline}
-          onChange={(e) => onHeadline(e.target.value)}
-          rows={2}
-          className="mt-1 w-full rounded-md border border-forest-dark/20 px-2 py-1.5 text-sm"
-        />
-      </label>
-      <label className="mt-2 block text-xs text-ink/60">
-        Subheadline
-        <textarea
-          value={subheadline}
-          onChange={(e) => onSubheadline(e.target.value)}
-          rows={3}
-          className="mt-1 w-full rounded-md border border-forest-dark/20 px-2 py-1.5 text-sm"
-        />
-      </label>
-    </div>
-  );
-}
+      <p className="mt-8 text-xs text-ink/50">
+        Maneno mengine (menyu, vitufe, vichwa vya sehemu) yanabadilishwa kwenye &quot;Maneno ya Tovuti&quot;.
+      </p>
 
-function AboutBlock({
-  label,
-  intro,
-  philosophy,
-  onIntro,
-  onPhilosophy,
-}: {
-  label: string;
-  intro: string;
-  philosophy: string;
-  onIntro: (v: string) => void;
-  onPhilosophy: (v: string) => void;
-}) {
-  return (
-    <div className="rounded-xl border border-forest-dark/10 bg-white p-4">
-      <p className="text-xs font-semibold text-ink/50">{label}</p>
-      <label className="mt-2 block text-xs text-ink/60">
-        Intro
-        <textarea
-          value={intro}
-          onChange={(e) => onIntro(e.target.value)}
-          rows={3}
-          className="mt-1 w-full rounded-md border border-forest-dark/20 px-2 py-1.5 text-sm"
-        />
-      </label>
-      <label className="mt-2 block text-xs text-ink/60">
-        Philosophy
-        <textarea
-          value={philosophy}
-          onChange={(e) => onPhilosophy(e.target.value)}
-          rows={3}
-          className="mt-1 w-full rounded-md border border-forest-dark/20 px-2 py-1.5 text-sm"
-        />
-      </label>
+      <div className="mt-4 flex flex-wrap items-center gap-4">
+        <button
+          onClick={handleSave}
+          disabled={saving}
+          className="rounded-full bg-forest px-6 py-2.5 text-sm font-medium text-cream transition hover:bg-forest-dark disabled:opacity-60"
+        >
+          {saving ? "Inahifadhi..." : "Hifadhi mabadiliko"}
+        </button>
+        {message && <Notice kind={message.kind}>{message.text}</Notice>}
+      </div>
     </div>
   );
 }
