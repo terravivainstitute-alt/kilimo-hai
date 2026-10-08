@@ -8,6 +8,7 @@ const links = [
   { href: "/", key: "home" as const },
   { href: "/huduma", key: "services" as const },
   { href: "/duka", key: "shop" as const },
+  { href: "/matukio", key: "events" as const },
   { href: "/kuhusu", key: "about" as const },
   { href: "/blogu", key: "blog" as const },
   { href: "/wasiliana", key: "contact" as const },
@@ -23,7 +24,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2">
           <LeafMark />
           <span className="font-[family-name:var(--font-display)] text-xl font-semibold text-forest-dark">
-            Kilimo Hai
+            {t.common.brand}
           </span>
         </Link>
 
