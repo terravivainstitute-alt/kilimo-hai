@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useLanguage, pick } from "@/lib/LanguageContext";
 import { buildMedia, type MediaItem } from "@/lib/media";
+import { useCart } from "@/lib/CartContext";
 import MediaLightbox, { MediaTile } from "@/app/components/MediaLightbox";
 import type { Product } from "@/types/content";
 
@@ -13,6 +14,8 @@ export default function DukaPage() {
   const { lang, t } = useLanguage();
   const [products, setProducts] = useState<Product[]>([]);
   const [viewer, setViewer] = useState<Viewer>({ items: [], index: null });
+  const cart = useCart();
+  const [justAdded, setJustAdded] = useState<string | null>(null);
 
   useEffect(() => {
     async function load() {
@@ -35,6 +38,13 @@ export default function DukaPage() {
     outOfStock: t.shop.outOfStock,
     addToCart: t.shop.addToCart,
     onOpen: (items: MediaItem[], index: number) => setViewer({ items, index }),
+    addedLabel: t.cart.added,
+    justAdded,
+    onAdd: (p: Product) => {
+      cart.add(p);
+      setJustAdded(p.id);
+      window.setTimeout(() => setJustAdded(null), 1500);
+    },
   };
 
   return (
@@ -75,6 +85,9 @@ function ProductGroup({
   outOfStock,
   addToCart,
   onOpen,
+  addedLabel,
+  justAdded,
+  onAdd,
 }: {
   title: string;
   products: Product[];
@@ -82,6 +95,9 @@ function ProductGroup({
   outOfStock: string;
   addToCart: string;
   onOpen: (items: MediaItem[], index: number) => void;
+  addedLabel: string;
+  justAdded: string | null;
+  onAdd: (p: Product) => void;
 }) {
   return (
     <section className="mt-14">
@@ -124,8 +140,11 @@ function ProductGroup({
                     <span className="text-xs text-ink/50"> / {p.unit}</span>
                   </span>
                   {p.stock > 0 ? (
-                    <button className="rounded-full bg-forest px-4 py-1.5 text-xs font-medium text-cream transition hover:bg-forest-dark">
-                      {addToCart}
+                    <button
+                      onClick={() => onAdd(p)}
+                      className="rounded-full bg-forest px-4 py-1.5 text-xs font-medium text-cream transition hover:bg-forest-dark"
+                    >
+                      {justAdded === p.id ? `✓ ${addedLabel}` : addToCart}
                     </button>
                   ) : (
                     <span className="text-xs text-ink/40">{outOfStock}</span>
