@@ -9,11 +9,13 @@ import { supabase } from "@/lib/supabase";
 const navItems = [
   { href: "/admin/dashboard", label: "Muhtasari" },
   { href: "/admin/dashboard/bookings", label: "Bookings" },
+  { href: "/admin/dashboard/orders", label: "Oda za duka" },
   { href: "/admin/dashboard/services", label: "Huduma" },
   { href: "/admin/dashboard/products", label: "Bidhaa" },
   { href: "/admin/dashboard/events", label: "Matukio na Picha" },
   { href: "/admin/dashboard/blog", label: "Blogu" },
   { href: "/admin/dashboard/content", label: "Maudhui na Mawasiliano" },
+  { href: "/admin/dashboard/malipo", label: "Mipangilio ya Malipo" },
   { href: "/admin/dashboard/words", label: "Maneno ya Tovuti" },
 ];
 
