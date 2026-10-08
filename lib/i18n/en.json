@@ -7,7 +7,8 @@
     "blog": "Blog",
     "contact": "Contact",
     "bookNow": "Request Consultancy",
-    "events": "Events"
+    "events": "Events",
+    "cart": "Cart"
   },
   "home": {
     "ctaPrimary": "Request Consultancy",
@@ -81,5 +82,29 @@
     "intro": "Photos and updates from our events and fieldwork.",
     "empty": "Events coming soon.",
     "photos": "photos"
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty.",
+    "continueShopping": "Continue shopping",
+    "total": "Total",
+    "remove": "Remove",
+    "added": "Added",
+    "checkoutTitle": "Your details",
+    "name": "Your name",
+    "phone": "Phone number",
+    "region": "Region / delivery area",
+    "placeOrder": "Place order",
+    "placing": "Placing order...",
+    "successTitle": "Your order has been received",
+    "reference": "Order number",
+    "amountToPay": "Amount to pay",
+    "payHow": "How to pay",
+    "payNote": "Use the order number as the payment reference.",
+    "noMethods": "We will call you shortly with payment instructions.",
+    "accountName": "Account name",
+    "errorGeneric": "Sorry, your order was not sent. Please try again.",
+    "errorStock": "One item is not available in that quantity. Reduce it and try again.",
+    "errorUnavailable": "One item is no longer available. Remove it from your cart and try again."
   }
 }
