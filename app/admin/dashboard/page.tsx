@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 
 interface Counts {
   pendingBookings: number;
+  unpaidOrders: number;
   services: number;
   products: number;
   events: number;
@@ -15,6 +16,7 @@ interface Counts {
 export default function DashboardOverview() {
   const [counts, setCounts] = useState<Counts>({
     pendingBookings: 0,
+    unpaidOrders: 0,
     services: 0,
     products: 0,
     events: 0,
@@ -22,27 +24,29 @@ export default function DashboardOverview() {
   });
 
   useEffect(() => {
-    async function count(table: string, status?: string) {
+    async function count(table: string, status?: string, column = "status") {
       let q = supabase.from(table).select("*", { count: "exact", head: true });
-      if (status) q = q.eq("status", status);
+      if (status) q = q.eq(column, status);
       const { count } = await q;
       return count ?? 0;
     }
     async function load() {
-      const [pendingBookings, services, products, events, posts] = await Promise.all([
+      const [pendingBookings, unpaidOrders, services, products, events, posts] = await Promise.all([
         count("bookings", "pending"),
+        count("orders", "unpaid", "payment_status"),
         count("services"),
         count("products"),
         count("events"),
         count("blog_posts"),
       ]);
-      setCounts({ pendingBookings, services, products, events, posts });
+      setCounts({ pendingBookings, unpaidOrders, services, products, events, posts });
     }
     load();
   }, []);
 
   const cards = [
     { label: "Bookings zinazosubiri", value: counts.pendingBookings, href: "/admin/dashboard/bookings" },
+    { label: "Oda zisizolipwa", value: counts.unpaidOrders, href: "/admin/dashboard/orders" },
     { label: "Huduma", value: counts.services, href: "/admin/dashboard/services" },
     { label: "Bidhaa", value: counts.products, href: "/admin/dashboard/products" },
     { label: "Matukio", value: counts.events, href: "/admin/dashboard/events" },
