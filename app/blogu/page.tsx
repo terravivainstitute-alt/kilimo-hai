@@ -30,7 +30,7 @@ export default function BloguPage() {
 
       {posts.length === 0 && (
         <p className="mt-12 text-sm text-ink/50">
-          {lang === "sw" ? "Makala zinakuja hivi karibuni." : "Posts coming soon."}
+          {t.blog.empty}
         </p>
       )}
 
