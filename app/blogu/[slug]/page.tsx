@@ -1,83 +1,63 @@
-"use client";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import BlogPostView from "@/app/components/BlogPostView";
+import JsonLd from "@/app/components/JsonLd";
+import { excerpt, getPostBySlug, getPublishedPosts } from "@/lib/server-data";
+import { optimizeImage } from "@/lib/media";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { supabase } from "@/lib/supabase";
-import { useLanguage, pick } from "@/lib/LanguageContext";
-import { buildMedia, optimizeImage } from "@/lib/media";
-import MediaLightbox, { InlinePlayer } from "@/app/components/MediaLightbox";
-import type { BlogPost } from "@/types/content";
+export const revalidate = 60;
 
-export default function BlogPostPage() {
-  const { lang, t } = useLanguage();
-  const params = useParams<{ slug: string }>();
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [notFound, setNotFound] = useState(false);
-  const [coverOpen, setCoverOpen] = useState<number | null>(null);
+type Props = { params: Promise<{ slug: string }> };
 
-  useEffect(() => {
-    async function load() {
-      const { data } = await supabase
-        .from("blog_posts")
-        .select("*")
-        .eq("slug", params.slug)
-        .eq("published", true)
-        .maybeSingle();
-      if (data) {
-        setPost(data as BlogPost);
-      } else {
-        setNotFound(true);
-      }
-    }
-    load();
-  }, [params.slug]);
+export async function generateStaticParams() {
+  const posts = await getPublishedPosts();
+  return posts.map((p) => ({ slug: p.slug }));
+}
 
-  if (notFound) {
-    return (
-      <div className="mx-auto max-w-3xl px-6 py-16">
-        <p className="text-ink/60">{t.blog.notFound}</p>
-      </div>
-    );
-  }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+  if (!post) return { title: "Makala haijapatikana" };
 
-  if (!post) return null;
+  const description = excerpt(post.body.sw);
+  return {
+    title: post.title.sw,
+    description,
+    alternates: { canonical: `/blogu/${slug}` },
+    openGraph: {
+      title: post.title.sw,
+      description,
+      type: "article",
+      publishedTime: post.published_at ?? undefined,
+      images: post.cover_image_url
+        ? [{ url: optimizeImage(post.cover_image_url, 1200) }]
+        : undefined,
+    },
+  };
+}
 
-  const cover = buildMedia(post.cover_image_url ? [post.cover_image_url] : []);
-  const videos = buildMedia([], post.videos);
+export default async function Page({ params }: Props) {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+  if (!post) return notFound();
 
   return (
-    <article className="mx-auto max-w-3xl px-6 py-16">
-      {post.cover_image_url && (
-        <button onClick={() => setCoverOpen(0)} className="mb-8 block w-full">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={optimizeImage(post.cover_image_url, 1400)}
-            alt={pick(lang, post.title)}
-            className="aspect-video w-full rounded-2xl object-cover"
-          />
-        </button>
-      )}
-      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold text-forest-dark sm:text-4xl">
-        {pick(lang, post.title)}
-      </h1>
-      <div className="mt-8 whitespace-pre-line text-ink/80">
-        {pick(lang, post.body)}
-      </div>
-
-      {videos.length > 0 && (
-        <div className="mt-10 space-y-6">
-          {videos.map((v, i) => (
-            <InlinePlayer key={`${v.url}-${i}`} item={v} />
-          ))}
-        </div>
-      )}
-
-      <MediaLightbox
-        items={cover}
-        index={coverOpen}
-        onClose={() => setCoverOpen(null)}
-        onChange={setCoverOpen}
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post.title.sw,
+          description: excerpt(post.body.sw),
+          image: post.cover_image_url ? [optimizeImage(post.cover_image_url, 1200)] : undefined,
+          datePublished: post.published_at ?? post.created_at,
+          author: { "@type": "Organization", name: SITE_NAME },
+          publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+          mainEntityOfPage: `${SITE_URL}/blogu/${slug}`,
+        }}
       />
-    </article>
+      <BlogPostView post={post} />
+    </>
   );
 }
