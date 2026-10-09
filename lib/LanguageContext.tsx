@@ -65,12 +65,17 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 const STORAGE_KEY = "kilimo-hai-lang";
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
+export function LanguageProvider({
+  children,
+  initialOverrides,
+}: {
+  children: ReactNode;
+  initialOverrides?: Record<Lang, Overrides>;
+}) {
   const [lang, setLangState] = useState<Lang>("sw");
-  const [overrides, setOverrides] = useState<Record<Lang, Overrides>>({
-    sw: {},
-    en: {},
-  });
+  const [overrides, setOverrides] = useState<Record<Lang, Overrides>>(
+    initialOverrides ?? { sw: {}, en: {} }
+  );
 
   useEffect(() => {
     const stored = window.localStorage.getItem(STORAGE_KEY) as Lang | null;
