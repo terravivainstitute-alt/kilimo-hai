@@ -20,6 +20,7 @@ export function VideoUpload({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [link, setLink] = useState("");
+  const [progress, setProgress] = useState<number | null>(null);
 
   async function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
@@ -28,12 +29,13 @@ export function VideoUpload({
     const added: string[] = [];
     for (const file of Array.from(files)) {
       try {
-        added.push(await uploadVideo(file, folder));
+        added.push(await uploadVideo(file, folder, setProgress));
       } catch (e) {
         setError(e instanceof Error ? e.message : "Imeshindikana kupakia video.");
       }
     }
     if (added.length > 0) onChange([...values, ...added]);
+    setProgress(null);
     setBusy(false);
     if (inputRef.current) inputRef.current.value = "";
   }
@@ -112,7 +114,7 @@ export function VideoUpload({
           onClick={() => inputRef.current?.click()}
           className="rounded-md border border-forest-dark/20 px-3 py-1.5 text-xs font-medium text-forest-dark hover:bg-cream disabled:opacity-60"
         >
-          {busy ? "Inapakia video... subiri" : "+ Pakia video (MP4, hadi 50MB)"}
+          {busy ? `Inapakia video${progress !== null ? ` ${progress}%` : ""}... subiri` : "+ Pakia video (MP4, hadi 100MB)"}
         </button>
       </div>
 
