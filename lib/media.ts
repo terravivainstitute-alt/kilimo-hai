@@ -44,3 +44,15 @@ export function buildMedia(images: string[] = [], videos: string[] = []): MediaI
 export function withAutoplay(embedUrl: string): string {
   return `${embedUrl}${embedUrl.includes("?") ? "&" : "?"}autoplay=1`;
 }
+
+/**
+ * Picha za Cloudinary: omba ukubwa unaofaa na muundo bora (f_auto, q_auto).
+ * Picha za Supabase au za mahali pengine hazibadilishwi.
+ */
+export function optimizeImage(url: string, width = 1200): string {
+  const marker = "/image/upload/";
+  if (!url.includes("res.cloudinary.com/") || !url.includes(marker)) return url;
+  const [head, tail] = url.split(marker);
+  if (!/^v\d+\//.test(tail)) return url; // tayari ina mabadiliko
+  return `${head}${marker}f_auto,q_auto,w_${width},c_limit/${tail}`;
+}
