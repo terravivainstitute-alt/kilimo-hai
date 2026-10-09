@@ -5,6 +5,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { useLanguage, pick } from "@/lib/LanguageContext";
 import { useCart } from "@/lib/CartContext";
+import { optimizeImage } from "@/lib/media";
 import type { PaymentSettings } from "@/types/content";
 
 interface Placed {
@@ -147,7 +148,7 @@ export default function KikapuPage() {
             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md bg-cream">
               {item.image_url && (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={item.image_url} alt="" className="h-full w-full object-cover" />
+                <img src={optimizeImage(item.image_url, 160)} alt="" className="h-full w-full object-cover" />
               )}
             </div>
             <div className="min-w-0 flex-1">
