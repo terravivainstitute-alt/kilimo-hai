@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useLanguage, pick } from "@/lib/LanguageContext";
-import { buildMedia } from "@/lib/media";
+import { buildMedia, optimizeImage } from "@/lib/media";
 import MediaLightbox, { InlinePlayer } from "@/app/components/MediaLightbox";
 import type { BlogPost } from "@/types/content";
 
@@ -51,7 +51,7 @@ export default function BlogPostPage() {
         <button onClick={() => setCoverOpen(0)} className="mb-8 block w-full">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={post.cover_image_url}
+            src={optimizeImage(post.cover_image_url, 1400)}
             alt={pick(lang, post.title)}
             className="aspect-video w-full rounded-2xl object-cover"
           />
