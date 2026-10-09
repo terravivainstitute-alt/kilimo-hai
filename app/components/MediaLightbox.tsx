@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { withAutoplay, type MediaItem } from "@/lib/media";
+import { optimizeImage, withAutoplay, type MediaItem } from "@/lib/media";
 
 function PlayBadge() {
   return (
@@ -29,7 +29,7 @@ export function MediaTile({
     <span className={`relative block overflow-hidden bg-cream ${className}`}>
       {item.type === "image" && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={item.url} alt={alt} loading="lazy" className="h-full w-full object-cover" />
+        <img src={optimizeImage(item.url, 700)} alt={alt} loading="lazy" className="h-full w-full object-cover" />
       )}
       {item.type === "video" && (
         <video
@@ -131,7 +131,7 @@ export default function MediaLightbox({
           // eslint-disable-next-line @next/next/no-img-element
           <img
             key={item.url}
-            src={item.url}
+            src={optimizeImage(item.url, 1600)}
             alt=""
             className="max-h-[85vh] max-w-full rounded-lg object-contain"
           />
