@@ -94,9 +94,36 @@ insert into public.admins (email) values ('barua@mfano.com');
 - Mpango wa bure wa Supabase una ukomo wa bandwidth. YouTube haihesabiwi.
 - Barua pepe za Supabase (reset password) ni chache kwa saa kwenye mpango wa bure.
 
+## 6. Kuonekana kwa Google (SEO)
+
+- Home, Huduma na Blogu zinatengenezwa upande wa seva, kwa hiyo Google inaona maudhui moja kwa moja
+  (yanasasishwa kila dakika 1 baada ya admin kubadilisha).
+- `/sitemap.xml` na `/robots.txt` vinatengenezwa kiotomatiki. Admin na kikapu havionyeshwi kwenye Google.
+- Google inaona toleo la Kiswahili (URL moja kwa lugha zote mbili).
+- **Hatua yako:** fungua https://search.google.com/search-console → Add property (URL prefix) → thibitisha
+  kwa "HTML tag" → weka thamani ya `content` kwenye Vercel kama `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` →
+  Redeploy → Verify → Sitemaps → ongeza `sitemap.xml`.
+- Ukinunua domain, weka `NEXT_PUBLIC_SITE_URL` (mf. `https://kilimohai.co.tz`) kwenye Vercel.
+
+## 7. Kufuta picha/video za Cloudinary (Edge Function)
+
+Admin akifuta bidhaa, tukio au makala, edge function `cloudinary-delete` inafuta pia picha na video zake
+kwenye Cloudinary. Inaruhusu admin pekee, na inafuta faili za Kilimo Hai tu (folda `kilimo-hai/` au tag `kilimo-hai`).
+
+**Supabase → Edge Functions → Secrets** (usiziweke kwenye msimbo wala GitHub):
+
+| Jina | Maelezo |
+|---|---|
+| `CLOUDINARY_CLOUD_NAME` | `la3lqkey` |
+| `CLOUDINARY_API_KEY` | API Key mpya |
+| `CLOUDINARY_API_SECRET` | API Secret mpya |
+
+Kurekebisha au kuona function: Supabase → Edge Functions → `cloudinary-delete`.
+
 ## Bado haijakamilika
 
 - **Malipo ya mobile money** (M-Pesa, Tigo Pesa, Airtel Money kupitia Selcom au ClickPesa)
 - **Kikapu cha duka na checkout:** kitufe cha "Weka kwenye kikapu" ni cha mwonekano tu bado
-- **Arifa za SMS/Email** kwa admin booking mpya ikiingia
+- **Arifa kwa simu/email** za booking na oda mpya
+- **Nakala rudufu** ya kiotomatiki
 - Video kwenye huduma na ukurasa wa Kuhusu
