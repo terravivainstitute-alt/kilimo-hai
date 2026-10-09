@@ -61,7 +61,7 @@ Usiweke kamwe `service_role` key kwenye msimbo wa tovuti.
 Project: `kilimo-hai` (region `eu-west-1`)
 
 - **Majedwali:** `services`, `bookings`, `products`, `orders`, `blog_posts`, `events`, `site_content`, `admins`
-- **Storage:** bucket ya umma `media` (picha hadi 5MB, video hadi 50MB: MP4, WEBM, MOV)
+- **Picha na video mpya:** zinapakiwa **Cloudinary** (picha hadi 10MB, video hadi 100MB). Za zamani kwenye Supabase Storage zinaendelea kufanya kazi.
 - **Ruhusa:** wageni wanasoma maudhui yaliyochapishwa na kutuma booking. Kuhariri ni kwa
   emails zilizo kwenye jedwali la `admins` pekee (kupitia function `is_admin()`).
 
@@ -89,7 +89,7 @@ insert into public.admins (email) values ('barua@mfano.com');
 
 ## 5. Vikomo vya kujua
 
-- Video kubwa kuliko 50MB: ziweke YouTube kisha ubandike kiungo kwenye admin.
+- Video kubwa kuliko 100MB: ziweke YouTube kisha ubandike kiungo kwenye admin.
 - Tumia video za **MP4** kwa uhakika wa kucheza kwenye vifaa vyote.
 - Mpango wa bure wa Supabase una ukomo wa bandwidth. YouTube haihesabiwi.
 - Barua pepe za Supabase (reset password) ni chache kwa saa kwenye mpango wa bure.
