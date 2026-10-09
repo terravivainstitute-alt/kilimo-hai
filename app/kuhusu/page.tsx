@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { useLanguage, pick } from "@/lib/LanguageContext";
-import type { MediaItem } from "@/lib/media";
+import { optimizeImage, type MediaItem } from "@/lib/media";
 import MediaLightbox from "@/app/components/MediaLightbox";
 import type { AboutContent, AboutProfile } from "@/types/content";
 
@@ -96,7 +96,7 @@ export default function KuhusuPage() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={profile.photo_url}
+                src={optimizeImage(profile.photo_url, 900)}
                 alt={profile.name}
                 className="aspect-[4/5] w-full rounded-[2rem] object-cover"
               />
@@ -149,7 +149,7 @@ export default function KuhusuPage() {
                     className="flex items-center gap-3 rounded-lg border border-forest-dark/15 p-1.5 pr-3 text-left text-xs font-medium text-forest transition hover:bg-cream"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={c.image_url} alt="" className="h-12 w-16 rounded object-cover" />
+                    <img src={optimizeImage(c.image_url, 200)} alt="" className="h-12 w-16 rounded object-cover" />
                     {t.about.viewCertificate}
                   </button>
                 )}
