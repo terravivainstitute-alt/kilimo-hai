@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/lib/supabase";
 import { slugify } from "@/lib/slug";
+import { deleteCloudinaryAssets } from "@/lib/cloudinary-delete";
 import type { BlogPost } from "@/types/content";
 import { BilingualField, Notice } from "@/app/components/admin/ui";
 import { SingleImageUpload } from "@/app/components/admin/ImageUpload";
@@ -112,6 +113,7 @@ export default function AdminBlogPage() {
       setMessage({ kind: "error", text: `Imeshindikana kufuta: ${error.message}` });
       return;
     }
+    await deleteCloudinaryAssets([p.cover_image_url, ...(p.videos ?? [])]);
     if (form.id === p.id) setForm(EMPTY);
     await load();
   }
