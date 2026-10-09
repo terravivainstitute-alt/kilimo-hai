@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/lib/supabase";
 import { slugify } from "@/lib/slug";
+import { deleteCloudinaryAssets } from "@/lib/cloudinary-delete";
 import type { Product } from "@/types/content";
 import { BilingualField, Notice, TextField, inputCls } from "@/app/components/admin/ui";
 import { SingleImageUpload } from "@/app/components/admin/ImageUpload";
@@ -122,6 +123,7 @@ export default function AdminProductsPage() {
       setMessage({ kind: "error", text: `Imeshindikana kufuta: ${error.message}` });
       return;
     }
+    await deleteCloudinaryAssets([p.image_url, ...(p.videos ?? [])]);
     if (form.id === p.id) setForm(EMPTY);
     await load();
   }
